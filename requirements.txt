@@ -1,0 +1,4 @@
+Flask==2.3.3         # A stable version of Flask
+Werkzeug>=2.3.7      # At least version 2.3.7 to meet Flask's requirement
+numpy==1.23.5        # A compatible version of NumPy for TensorFlow 2.17.0
+tensorflow==2.17.0   # The latest stable version of TensorFlow
