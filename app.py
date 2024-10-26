@@ -1,10 +1,19 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 import json
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing.text import tokenizer_from_json
 from tensorflow.keras.preprocessing.sequence import pad_sequences
+# In app.py (add this route)
+
+
+# Add the index route to serve the HTML page
+
 
 app = Flask(__name__)
+@app.route('/index')
+def index():
+  return render_template('index.html')
+
 
 # Load the pre-trained model
 model = load_model('spam_detection_model.h5')  # Ensure the model file path is correct

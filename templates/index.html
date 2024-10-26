@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spam Detection</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-image: url('https://emeritus.org/in/wp-content/uploads/sites/3/2022/07/ethical-hacking.jpg.optimal.jpg'); /* Replace with your image URL */
+            background-size: cover; /* Make the background cover the entire area */
+            background-position: center; /* Center the background image */
+            font-family: Arial, sans-serif;
+            height: 100vh; /* Make sure body takes the full viewport height */
+            display: flex; /* Use flexbox for centering the container */
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
+        }
+        .container {
+            margin-top: 50px; /* Add some margin at the top */
+            max-width: 600px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.8); /* Make the container slightly transparent */
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        h1 {
+            color: #343a40;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 1.25em;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center">Spam Detection</h1>
+        <p class="text-center">Enter a message to check if it's spam or not!</p>
+        <div class="form-group">
+            <textarea class="form-control" id="message" rows="4" placeholder="Type your message here..."></textarea>
+        </div>
+        <button class="btn btn-primary btn-block" id="checkBtn">Check</button>
+        <div id="result" class="text-center"></div>
+    </div>
+
+    <script>
+        document.getElementById('checkBtn').addEventListener('click', function() {
+            const message = document.getElementById('message').value;
+            if (message.trim() === "") {
+                alert("Please enter a message.");
+                return;
+            }
+
+            fetch('/predict', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ text: message })
+            })
+            .then(response => response.json())
+            .then(data => {
+                const resultDiv = document.getElementById('result');
+                resultDiv.textContent = `Prediction: ${data.prediction}`;
+                resultDiv.style.color = data.prediction === 'Spam' ? 'red' : 'green';
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again.');
+            });
+        });
+    </script>
+</body>
+</html>
